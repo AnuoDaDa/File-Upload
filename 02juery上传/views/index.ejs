@@ -1,0 +1,49 @@
+<!DOCTYPE>
+<html>
+<head>
+    <title> formdata file jquery ajax upload</title>
+</head>
+
+<body>
+
+<input type="file" id="fulAvatar" name="image" size="50" />
+<input type="button" onclick="inputchange()" value="上传文件" />
+
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+    // 图片选择改变事件
+    function inputchange(){
+        var file = document.getElementById("fulAvatar");
+        var formData = new FormData();
+        var fileObj =file.files[0];
+        formData.append("uploadImage", fileObj);
+
+        var url = "http://localhost:8088/upload";
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: formData,
+
+            /**
+             * 必须false才会避开jQuery对 formdata 的默认处理
+             * XMLHttpRequest会对 formdata 进行正确的处理
+             */
+            processData: false,
+            /**
+             *必须false才会自动加上正确的Content-Type
+             */
+            contentType: false,
+            success: function (responseStr) {
+                alert(responseStr.newPath);
+
+            },
+            error: function (responseStr) {
+                alert(responseStr.newPath);
+            }
+        });
+
+    }
+
+</script>
+</body>
+</html>
